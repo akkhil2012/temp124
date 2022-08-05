@@ -1,0 +1,6 @@
+
+public enum Status {
+	
+	INITIATED,INPROGRESS,FAILED,SUCCESS,NOT_YET_INITIATED;
+
+}
