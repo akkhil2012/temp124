@@ -124,6 +124,11 @@ public class CPDGraph<T> {
 
 class Vertex<T> {
 	long id;
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 	String name;
 	
 	private String status;
@@ -185,11 +190,11 @@ class Edge<T> {
 		this.vertex2 = vertex2;
 		this.isDirected = isDirected;
 	}
-	Vertex<T> getVertex1(){
+	public Vertex<T> getVertex1(){
         return vertex1;
     }
     
-    Vertex<T> getVertex2(){
+    public Vertex<T> getVertex2(){
         return vertex2;
     }
 

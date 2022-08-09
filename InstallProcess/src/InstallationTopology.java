@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 public interface InstallationTopology {
 	
@@ -6,7 +7,7 @@ public interface InstallationTopology {
 	public Status fetchStatus();
 	
 	
-	public void fetchStatusForInstall(CPDGraph graph);
+	public Map<String,String>  fetchStatusForInstall(CPDGraph graph);
 	
 
 }
