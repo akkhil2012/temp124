@@ -17,12 +17,12 @@ import java.util.concurrent.TimeUnit;
 
 
 
-public class InstallationTopologyImpl implements InstallationTopology{
+public class InstallationTopologyImpl<T extends CPDModule> implements InstallationTopology{
 	
 	private Map<String,String> vertexResultMap = new HashMap<String, String>();
 
 	@Override
-	public CPDGraph defineTopologyGraph(List<CPDComponent> components) {
+	public CPDGraph defineTopologyGraph(List<? extends CPDModule> components) {
 		return defineGraph(components);
 	}
 
@@ -33,14 +33,14 @@ public class InstallationTopologyImpl implements InstallationTopology{
 	}
 	
 	// Creating graph as adjacency list
-	private CPDGraph defineGraph(List<CPDComponent> components) {
+	private CPDGraph defineGraph(List<? extends CPDModule> components) {
 	//private CPDGraph defineGraph(Map<String,List<CPDComponent>> componentsGraph) {
 		int i=0;
 		System.out.println(" Creating Graph for installation here..........");
 		CPDGraph graph = new CPDGraph(true);
 		// Mapping for Component to vertex
-		Map<Integer,CPDComponent> vertexToComponentMap = new HashMap<>();
-		for(CPDComponent component : components){
+		Map<Integer,CPDModule> vertexToComponentMap = new HashMap<>();
+		for(CPDModule component : components){
 			String compname = component.getCompName();
 			System.out.println(" Component name is " + compname);
 			Vertex vertex = new Vertex(i,compname);
@@ -57,7 +57,7 @@ public class InstallationTopologyImpl implements InstallationTopology{
 	  
 	  graph.addEdge(0, 1,vertexToComponentMap.get(0).getCompName(),vertexToComponentMap.get(1).getCompName());
 	  graph.addEdge(1, 2,vertexToComponentMap.get(1).getCompName(),vertexToComponentMap.get(2).getCompName());
-	  graph.addEdge(2, 3,vertexToComponentMap.get(2).getCompName(),vertexToComponentMap.get(3).getCompName());
+	 // graph.addEdge(2, 3,vertexToComponentMap.get(2).getCompName(),vertexToComponentMap.get(3).getCompName());
 	 // graph.addEdge(3, 4,vertexToComponentMap.get(3).getCompName(),vertexToComponentMap.get(4).getCompName());
 	  
 	 System.out.println(" Created edges............");
@@ -132,15 +132,23 @@ public class InstallationTopologyImpl implements InstallationTopology{
 			probeCount=4;
 		}
 		
+		else if(vertex.getName().equals("RABBIT")) {
+			arr = new String[]{"oc get pods -n \"wkc\" |  grep rabbit"};
+			probeCount=3;
+		}
+		else if(vertex.getName().equals("DB2UPOD")) {
+			arr = new String[]{"oc get pods -n \"wkc\" |  grep db2u"};
+			probeCount=3;
+		}
 		//String[] arr = new String[]{"oc get WKC wkc-cr -o yaml","|", "grep -iE", " '(completion)' "};
-		if(vertex.getName().equals("WKC")) {
+		else if(vertex.getName().equals("WKC")) {
 			 arr = new String[]{"oc get WKC wkc-cr"};
 		}
 		   //command = "oc get WKC wkc-cr -o yaml | grep -iE '(completion)' ";
 		else if(vertex.getName().equals("CCS")) {
 			//command = "oc get CCS ccs-cr -o yaml | grep -iE '(completion)' ";
 			 arr = new String[]{"oc get CCS ccs-cr"};
-		}else {
+		}else if(vertex.getName().equals("DB2U")){
 		//	command = "oc get Db2aaserviceService db2aaservice-cr -o yaml | grep -iE '(completion)'";
 			arr = new String[]{"oc get Db2aaserviceService db2aaservice-cr"};
 		}

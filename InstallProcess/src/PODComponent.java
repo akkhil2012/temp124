@@ -1,11 +1,11 @@
 
-public abstract class CPDComponent  extends CPDModule{
+public abstract class PODComponent extends CPDModule{
 	
 	private String compName;
 	private Status status;
 	
 	
-	public CPDComponent() {
+	public PODComponent() {
 		status = Status.NOT_YET_INITIATED;
 	}
 	
@@ -24,8 +24,5 @@ public abstract class CPDComponent  extends CPDModule{
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
-	
-	
 
 }
